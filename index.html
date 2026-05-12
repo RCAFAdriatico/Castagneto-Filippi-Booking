@@ -362,9 +362,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
             <div style="margin-top:10px;padding:10px;border-radius:7px;background:rgba(232,169,74,.08);border:1px solid rgba(232,169,74,.25);font-size:11px;color:var(--amber);line-height:1.6">
               <span id="waiver-warning">⚠️ After booking, download, sign and send the waiver together with proof of payment within 24 hours — otherwise your booking will be cancelled.</span>
             </div>
-            <button id="btn-waiver-cart" onclick="downloadWaiverFromCart()" style="width:100%;margin-top:8px;padding:9px;border-radius:7px;background:rgba(201,160,82,.12);border:1px solid rgba(201,160,82,.3);color:var(--gold);font-family:Outfit,sans-serif;font-size:12px;font-weight:600;cursor:pointer">
-              📄 Download & sign waiver
-            </button>
           </div>
         </div>
       </div>
@@ -1048,8 +1045,6 @@ async function doSendAndDownload(){
 
   sending = false; btn.disabled = false; btn.textContent = "📄 Confirm + download waiver";
   closeModal(); reRender(); renderSentList();
-  const waiverBtn = document.getElementById("btn-waiver-cart");
-  if(waiverBtn) waiverBtn.style.display = "block";
   document.getElementById("cart-footer").style.display = "block";
   toast(emailOk
     ? (lang==='it' ? `✅ Prenotazione inviata! Manleva scaricata, firmala e mandala con la ricevuta bonifico entro 24h.` : `✅ Booking sent! Waiver downloaded - sign and send with payment proof within 24h.`)
@@ -1690,8 +1685,6 @@ function applyLang(){
   // Waiver warning
   const ww = document.getElementById('waiver-warning');
   if(ww) ww.textContent = t('waiverWarning');
-  const wb = document.getElementById('btn-waiver-cart');
-  if(wb) wb.textContent = t('downloadWaiver');
   const sb = document.getElementById('btn-send');
   if(sb) sb.textContent = t('sendBooking');
   // Flag buttons
