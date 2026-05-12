@@ -414,8 +414,8 @@ tr:hover td{background:rgba(255,255,255,.02)}
     <div class="m-rows" id="m-rows"></div>
     <div class="iban-box">
       <div class="iban-lbl" id="iban-lbl">⚠️ Confirm only after bank transfer</div>
-      IBAN: <span style="font-family:monospace;color:var(--text)">[IBAN DA DEFINIRE]</span><br>
-      BIC: <span style="color:var(--text)">[BIC DA DEFINIRE]</span><br>
+      IBAN: <span style="font-family:monospace;color:var(--text)">IT58P0846170689000010979287</span><br>
+      BIC: <span style="color:var(--text)">CCRTIT2TCAS</span><br>
       Reference: <span style="color:var(--text)" id="m-causale"></span>
     </div>
     <div class="terms-box" id="terms-box" onclick="toggleTerms()">
@@ -1012,11 +1012,11 @@ async function doSendAndDownload(){
     `BOOKED SLOTS:\n${slotLines}\n\n` +
     `Total: €${tot}\n\n` +
     `PAYMENT\n` +
-    `IBAN: [IBAN DA DEFINIRE]\n` +
-    `BIC: [BIC DA DEFINIRE]\n` +
+    `IBAN: IT58P0846170689000010979287\n` +
+    `BIC: CCRTIT2TCAS\n` +
     `Reference: TRAINING RENTAL ${club.name}\n\n` +
     `Please download, sign and send the waiver + proof of payment to:\n` +
-    `beachsprintfano@gmail.com within 24 hours.`;
+    `rent@filippiboats.com within 24 hours.`;
 
   let emailOk = false; // will be set by Apps Script
 
@@ -1095,7 +1095,7 @@ function generateWaiver(clubData, slots){
   doc.setTextColor(200,220,235); doc.setFont("helvetica","normal"); doc.setFontSize(9);
   doc.text("Filippi Trophy Beach Sprint - 3-7 June 2026 - Castagneto Carducci", pw/2, 18, {align:"center"});
   doc.setTextColor(150,180,200); doc.setFontSize(7.5);
-  doc.text("[ORGANIZZATORE DA DEFINIRE]  ·  " + new Date().toLocaleDateString(lang==="it"?"it-IT":"en-GB"), pw/2, 24, {align:"center"});
+  doc.text("European Rowing Coastal Challenge  ·  " + new Date().toLocaleDateString(lang==="it"?"it-IT":"en-GB"), pw/2, 24, {align:"center"});
   doc.setTextColor(0,0,0);
   y = 38;
 
@@ -1161,9 +1161,9 @@ function generateWaiver(clubData, slots){
   doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(150,100,0);
   doc.text(lang==="it" ? "ATTENZIONE: Bonifico entro 24 ore dalla prenotazione" : "WARNING: Bank transfer required within 24 hours of booking", ml+3, y+4);
   doc.setTextColor(0,0,0); doc.setFont("helvetica","normal"); doc.setFontSize(8.5);
-  doc.text((lang==="it" ? "Beneficiario: [ORGANIZZATORE DA DEFINIRE]" : "Beneficiary: [ORGANIZZATORE DA DEFINIRE]"), ml+3, y+11);
-  doc.text("IBAN:  [IBAN DA DEFINIRE]", ml+3, y+17);
-  doc.text("BIC:   [BIC DA DEFINIRE]", ml+3, y+23);
+  doc.text((lang==="it" ? "Beneficiario: European Rowing Coastal Challenge" : "Beneficiary: European Rowing Coastal Challenge"), ml+3, y+11);
+  doc.text("IBAN:  IT58P0846170689000010979287", ml+3, y+17);
+  doc.text("BIC:   CCRTIT2TCAS", ml+3, y+23);
   doc.setFont("helvetica","bold");
   doc.text((lang==="it" ? "Causale:    NOLEGGIO ALLENAMENTO " : "Reference:  TRAINING RENTAL ") + (clubData.name||""), ml+3, y+29);
   y+=32;
@@ -1174,18 +1174,18 @@ function generateWaiver(clubData, slots){
     "1. L'allenamento e' previsto in SLOT da 25 minuti effettivi + 5 minuti per il cambio barca.",
     "2. Max 6 posti per 1x, 5 per 2x, 1 per 4x+ per finestra. Assegnazione in ordine cronologico di ricezione del bonifico.",
     "3. Costo EUR 15,00 a posto (timoniere escluso). Include remi e dotazioni di sicurezza.",
-    "4. Confermato solo a ricevimento bonifico su IBAN [IBAN DA DEFINIRE] (BIC: [BIC DA DEFINIRE]). Causale: NOLEGGIO ALLENAMENTO + NOME SOCIETA'.",
+    "4. Confermato solo a ricevimento bonifico su IBAN IT58P0846170689000010979287 (BIC: CCRTIT2TCAS). Causale: NOLEGGIO ALLENAMENTO + NOME SOCIETA'.",
     "5. Il richiedente si assume la responsabilita' per danni alle imbarcazioni e remi noleggiati.",
-    "6. Prenotazioni a: beachsprintfano@gmail.com entro la scadenza.",
-    "7. Info: [Contatto da definire]."
+    "6. Prenotazioni a: rent@filippiboats.com entro la scadenza.",
+    "7. Info: Claudio Sulas +39 328 865 9759."
   ] : [
     "1. Training sessions are scheduled in SLOTS of 25 minutes of training and 5 minutes for boat changeover within different time windows.",
     "2. A maximum of 6 bookings for 1x, 5 for 2x, and 1 for 4x+ will be available per time window. Requests assigned in chronological order of bank transfers.",
     "3. The rental cost is EUR 15.00 per seat (coxswain excluded). Rental includes oars and safety equipment.",
-    "4. Rental confirmed only upon receipt of bank transfer to IBAN [IBAN DA DEFINIRE] (BIC: [BIC DA DEFINIRE]). Reference: TRAINING RENTAL and CLUB NAME.",
+    "4. Rental confirmed only upon receipt of bank transfer to IBAN IT58P0846170689000010979287 (BIC: CCRTIT2TCAS). Reference: TRAINING RENTAL and CLUB NAME.",
     "5. The applicant assumes full responsibility for any damage to rented boats and oars and agrees to reimburse repair costs upon request.",
-    "6. Bookings must be submitted by the deadline by email to: beachsprintfano@gmail.com",
-    "7. For info contact training manager [Contact to be defined]."
+    "6. Bookings must be submitted by the deadline by email to: rent@filippiboats.com",
+    "7. For info contact training manager Claudio Sulas +39 328 865 9759."
   ];
   for(var i=0;i<terms.length;i++){ para(terms[i], 8); y+=1; }
 
@@ -1193,10 +1193,10 @@ function generateWaiver(clubData, slots){
   section(lang==="it" ? "DICHIARAZIONE" : "DECLARATION / WAIVER");
   var p1, p2, p3;
   if(lang==="it"){
-    p1 = "Il sottoscritto, in qualita' di legale rappresentante della Societa' " + (clubData.name||"") + ", dichiara di sollevare il [ORGANIZZATORE DA DEFINIRE] da ogni responsabilita' per perdite, danni, infortuni ed ogni altro evento imprevisto che possa cagionare nocumento a persone e beni, sia a terra che in acqua, come conseguenza della partecipazione agli allenamenti.";
+    p1 = "Il sottoscritto, in qualita' di legale rappresentante della Societa' " + (clubData.name||"") + ", dichiara di sollevare il European Rowing Coastal Challenge da ogni responsabilita' per perdite, danni, infortuni ed ogni altro evento imprevisto che possa cagionare nocumento a persone e beni, sia a terra che in acqua, come conseguenza della partecipazione agli allenamenti.";
     p2 = "Il richiedente si assume la responsabilita' per danni alle imbarcazioni e remi noleggiati e dichiara di aver compreso e approvato i punti da 1 a 6.";
   } else {
-    p1 = "The undersigned, as legal representative of Club " + (clubData.name||"") + ", hereby declares to release [ORGANIZZATORE DA DEFINIRE] from any liability for loss, damage, injury, or unforeseen events affecting persons or property, on land or in water, resulting from participation in training sessions and races.";
+    p1 = "The undersigned, as legal representative of Club " + (clubData.name||"") + ", hereby declares to release European Rowing Coastal Challenge from any liability for loss, damage, injury, or unforeseen events affecting persons or property, on land or in water, resulting from participation in training sessions and races.";
     p2 = "The undersigned further declares to be responsible for their operational decisions and those of athletes, coaches, and collaborators belonging to the applying Club, in the event of damage, pursuant to Articles 2043, 2049, and 2050 of the Italian Civil Code.";
     p3 = "The undersigned expressly declares to have understood and approved the above points (1 to 6).";
   }
@@ -1209,7 +1209,7 @@ function generateWaiver(clubData, slots){
   doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(0,100,50);
   doc.text(lang==="it" ? "Invia questo modulo firmato + ricevuta del bonifico a:" : "Send this signed form + proof of bank transfer to:", ml+3, y+5);
   doc.setTextColor(0,0,0); doc.setFont("helvetica","normal");
-  doc.text("beachsprintfano@gmail.com   " + (lang==="it" ? "entro 24 ore dalla prenotazione" : "within 24 hours of booking"), ml+3, y+11);
+  doc.text("rent@filippiboats.com   " + (lang==="it" ? "entro 24 ore dalla prenotazione" : "within 24 hours of booking"), ml+3, y+11);
   y+=20;
 
   // SIGNATURES
@@ -1878,7 +1878,7 @@ function generateReceipt(clubName, referent, email){
 
   // Header text
   doc.setFont('helvetica','bold'); doc.setFontSize(18); doc.setTextColor(...DARK);
-  doc.text('[ORGANIZZATORE DA DEFINIRE]', W/2, 18, {align:'center'});
+  doc.text('European Rowing Coastal Challenge', W/2, 18, {align:'center'});
   doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...MUTED);
   doc.text('Associazione Sportiva Dilettantistica', W/2, 24, {align:'center'});
   doc.text('via Simonetti · 61032 FANO (PS) · tel. e fax 0721/807909', W/2, 29, {align:'center'});

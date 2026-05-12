@@ -4,10 +4,19 @@
 // Rowing Club Adriatico Fano ASD (creator)
 // ================================================================
 
-const ADMIN_EMAIL       = "beachsprintfano@gmail.com";
+const ADMIN_EMAIL_PRIMARY = "rent@filippiboats.com";
+const ADMIN_EMAIL_CC      = "beachsprintfano@gmail.com";
+const ADMIN_EMAIL         = ADMIN_EMAIL_PRIMARY + ", " + ADMIN_EMAIL_CC;
+
 const SHEET_BOOKINGS    = "Prenotazioni";
 const SHEET_CONFIG      = "Config";
 const SHEET_CLUBS       = "Clubs";
+
+// Bank data
+const BENEFICIARY = "European Rowing Coastal Challenge";
+const IBAN = "IT58P0846170689000010979287";
+const BIC = "CCRTIT2TCAS";
+const BANK = "Castagneto Banca 1910 - Credito Cooperativo S.C.";
 
 // ================================================================
 // ENTRY POINTS
@@ -47,7 +56,6 @@ function jsonResponse(obj) {
 function initSheets() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
 
-  // Prenotazioni
   let sBook = ss.getSheetByName(SHEET_BOOKINGS);
   if (!sBook) {
     sBook = ss.insertSheet(SHEET_BOOKINGS);
@@ -60,7 +68,6 @@ function initSheets() {
     sBook.getRange(1, 1, 1, 16).setFontWeight("bold").setBackground("#1e3348").setFontColor("#ffffff");
   }
 
-  // Config
   let sCfg = ss.getSheetByName(SHEET_CONFIG);
   if (!sCfg) {
     sCfg = ss.insertSheet(SHEET_CONFIG);
@@ -79,16 +86,20 @@ function initSheets() {
       ["admin_user", "FilippiCastagneto26", "Username admin"],
       ["event_name", "Filippi Trophy Castagneto Carducci 2026", "Nome evento"],
       ["event_dates", "3-7 Giugno 2026", "Date evento"],
-      ["organizer", "[DA DEFINIRE]", "Organizzatore"],
-      ["iban", "[DA DEFINIRE]", "IBAN"],
-      ["bic", "[DA DEFINIRE]", "BIC"],
-      ["beneficiary", "[DA DEFINIRE]", "Beneficiario"],
-      ["contact_phone", "[DA DEFINIRE]", "Telefono contatto"],
+      ["organizer", "European Rowing Coastal Challenge", "Organizzatore"],
+      ["organizer_vat", "01956180499", "P.IVA/CF organizzatore"],
+      ["organizer_sdi", "W7YVJK9", "Codice SDI"],
+      ["iban", IBAN, "IBAN"],
+      ["bic", BIC, "BIC/SWIFT"],
+      ["bank", BANK, "Banca"],
+      ["beneficiary", BENEFICIARY, "Beneficiario"],
+      ["contact_name", "Claudio Sulas", "Persona di riferimento"],
+      ["contact_email", "rent@filippiboats.com", "Email contatto pubblica"],
+      ["contact_phone", "+39 328 865 9759", "Telefono contatto"],
     ];
     sCfg.getRange(2, 1, defaults.length, 3).setValues(defaults);
   }
 
-  // Clubs
   let sClubs = ss.getSheetByName(SHEET_CLUBS);
   if (!sClubs) {
     sClubs = ss.insertSheet(SHEET_CLUBS);
@@ -123,10 +134,8 @@ function handleBook(data) {
       + slot.start + "–" + slot.end + " · €" + price.toFixed(2));
   });
 
-  // Registra club (se nuovo)
   registerClubIfNew(data);
 
-  // Body email
   const corpo =
     "Club: " + data.club + "\n" +
     "Contact: " + (data.referent || "-") + "\n" +
@@ -135,19 +144,20 @@ function handleBook(data) {
     "BOOKED SLOTS:\n" + slotLines.join("\n") + "\n\n" +
     "Total: €" + totalEur.toFixed(2) + "\n\n" +
     "PAYMENT\n" +
-    "IBAN: [DA DEFINIRE]\n" +
-    "BIC: [DA DEFINIRE]\n" +
-    "Beneficiary: [DA DEFINIRE]\n" +
+    "Beneficiary: " + BENEFICIARY + "\n" +
+    "Bank: " + BANK + "\n" +
+    "IBAN: " + IBAN + "\n" +
+    "BIC: " + BIC + "\n" +
     "Reference: TRAINING RENTAL " + data.club + "\n\n" +
     "Please download, sign and send the waiver + proof of payment to:\n" +
-    "beachsprintfano@gmail.com within 24 hours.";
+    "rent@filippiboats.com within 24 hours.";
 
-  // Email all'admin
+  // Email all'admin (TO + CC)
   GmailApp.sendEmail(
-    ADMIN_EMAIL,
+    ADMIN_EMAIL_PRIMARY,
     "Nuova prenotazione – " + data.club + " – Filippi Trophy Castagneto 2026",
     "Nuova prenotazione ricevuta.\n\n" + corpo,
-    { name: "Filippi Trophy Booking", replyTo: data.email || ADMIN_EMAIL }
+    { name: "Filippi Trophy Booking", replyTo: data.email || ADMIN_EMAIL_PRIMARY, cc: ADMIN_EMAIL_CC }
   );
 
   // Email di conferma al club
@@ -158,7 +168,7 @@ function handleBook(data) {
         "Conferma prenotazione – Filippi Trophy Castagneto 2026",
         "Gentile " + data.club + ",\n\nLa tua prenotazione e' stata registrata con successo.\n\n" + corpo +
         "\n\nGrazie!\nFilippi Trophy Booking - Castagneto Carducci 2026",
-        { name: "Filippi Trophy Booking", replyTo: ADMIN_EMAIL }
+        { name: "Filippi Trophy Booking", replyTo: ADMIN_EMAIL_PRIMARY }
       );
     } catch(e) {
       Logger.log("Errore invio email cliente: " + e);
@@ -181,10 +191,10 @@ function handleCancel(data) {
     }
   }
   if (cancelled > 0) {
-    GmailApp.sendEmail(ADMIN_EMAIL,
+    GmailApp.sendEmail(ADMIN_EMAIL_PRIMARY,
       "Cancellazione – " + data.club,
       data.club + " ha cancellato: " + data.boat + " – " + (data.start || "") + "–" + (data.end || ""),
-      { name: "Filippi Trophy Booking" });
+      { name: "Filippi Trophy Booking", cc: ADMIN_EMAIL_CC });
   }
   return { ok: true, cancelled: cancelled };
 }
@@ -205,12 +215,12 @@ function handleMarkPaid(data) {
 }
 
 function handleMoveSlot(data) {
-  return { ok: true, msg: "MoveSlot handled - implement details if needed" };
+  return { ok: true, msg: "MoveSlot handled" };
 }
 
 function handleSummary(data) {
-  GmailApp.sendEmail(ADMIN_EMAIL, data.subject || "Riepilogo prenotazioni", data.message || "Nessuna prenotazione",
-    { name: "Filippi Trophy Booking" });
+  GmailApp.sendEmail(ADMIN_EMAIL_PRIMARY, data.subject || "Riepilogo prenotazioni", data.message || "Nessuna prenotazione",
+    { name: "Filippi Trophy Booking", cc: ADMIN_EMAIL_CC });
   return { ok: true };
 }
 
@@ -253,7 +263,7 @@ function registerClubIfNew(data) {
   if (!sheet) return;
   const rows = sheet.getDataRange().getValues();
   for (let i = 1; i < rows.length; i++) {
-    if (rows[i][0] === data.club) return; // already exists
+    if (rows[i][0] === data.club) return;
   }
   sheet.appendRow([data.club, data.referent || "", data.email || "", data.phone || "", ""]);
 }
