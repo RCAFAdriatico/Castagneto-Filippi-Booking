@@ -467,7 +467,7 @@ const PRICES_PROMO = { "1x": 15.00, "2x": 15.00, "4x+": 60.00 };
 const PRICES_FULL  = { "1x": 15.00, "2x": 30.00, "4x+": 60.00 };
 function getPrice(bt){ return (new Date() < PROMO_END ? PRICES_PROMO : PRICES_FULL)[bt] || PRICE; }
 function isPromo(){ return new Date() < PROMO_END; }
-const APPS_SCRIPT_URL = "INCOLLA_QUI_URL_APPS_SCRIPT_CASTAGNETO";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxu4CoZ-ktsVqOdS8v1c2sXTZGLnxLP-of_0cnrkvvhKH2Qr6WlGjYevX7zaGgX5llHxA/exec";
 
 // Flotta fisica disponibile
 // FLEET loads from localStorage so admin can change it without reloading code
@@ -1483,7 +1483,7 @@ async function callScript(payload){
 }
 
 // ─── LOAD BOOKINGS FROM SHEET ON STARTUP ────────────────────────────────────
-const SHEET_ID = "INCOLLA_QUI_SHEET_ID_CASTAGNETO";
+const SHEET_ID = "1yQqGeb6cubi2HJLHb3tlws4EH2Bul4DzMnd9D0Nk9Fs";
 
 // ─── LANGUAGE ────────────────────────────────────────────────────────────────
 let lang = localStorage.getItem('lang') || 'en';
