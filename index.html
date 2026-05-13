@@ -500,19 +500,19 @@ function makeSlots(s, e){
 function defaultSessionConfig(){
   return [
     {dateKey:"2026-06-03", dayLabel:"Wednesday", dateLabel:"3 June 2026", hidden:false, sessions:[
-      {id:"wed-am", label:"Morning",   icon:"☀️",  startMin:8*60,    endMin:13*60+30},
-      {id:"wed-pm", label:"Afternoon", icon:"🌤️", startMin:14*60,   endMin:18*60},
+      {id:"wed-am", label:"Morning",   icon:"☀️",  startMin:8*60+30, endMin:12*60+30},
+      {id:"wed-pm", label:"Afternoon", icon:"🌤️", startMin:14*60,   endMin:17*60+30},
     ]},
     {dateKey:"2026-06-04", dayLabel:"Thursday", dateLabel:"4 June 2026", hidden:false, sessions:[
-      {id:"thu-am", label:"Morning",   icon:"☀️",  startMin:8*60,    endMin:13*60+30},
-      {id:"thu-pm", label:"Afternoon", icon:"🌤️", startMin:14*60,   endMin:18*60},
+      {id:"thu-am", label:"Morning",   icon:"☀️",  startMin:8*60+30, endMin:12*60+30},
+      {id:"thu-pm", label:"Afternoon", icon:"🌤️", startMin:14*60,   endMin:17*60+30},
     ]},
-    {dateKey:"2026-06-05", dayLabel:"Friday", dateLabel:"5 June 2026", hidden:true, sessions:[
-      {id:"fri-am", label:"Morning",   icon:"☀️",  startMin:8*60,    endMin:12*60},
+    {dateKey:"2026-06-05", dayLabel:"Friday", dateLabel:"5 June 2026", hidden:false, sessions:[
+      {id:"fri-am", label:"Morning",   icon:"☀️",  startMin:8*60+30, endMin:12*60+30},
     ]},
   ];
 }
-const SESSION_CONFIG_VERSION = "castagneto-v1"; // increment to force reset
+const SESSION_CONFIG_VERSION = "castagneto-v2"; // increment to force reset
 function loadSessionConfig(){
   try {
     const ver = localStorage.getItem('sessionConfigVersion');
@@ -1700,7 +1700,7 @@ function applyLang(){
     gl.textContent = '📄 ' + (lang==='it' ? 'Guida Utente' : 'User Guide');
   }
   // SESSIONS labels
-  // SESSIONS labels — Wed/Thu/Fri (Fri hidden by `hidden:true` flag in defaultSessionConfig)
+  // SESSIONS labels — Wed/Thu/Fri all visible (training Wed+Thu full day + Fri morning only)
   const dayKeys  = ['wednesday','thursday','friday'];
   const dateKeys = ['dateWednesday','dateThursday','dateFriday'];
   SESSIONS.forEach((sess, idx) => {
