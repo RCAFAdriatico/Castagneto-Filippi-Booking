@@ -1138,7 +1138,7 @@ function generateWaiver(clubData, slots){
     doc.text(bl, ml+2, y);
     doc.text(s.dayLabel||"", ml+50, y);
     doc.text(s.sessLabel||"", ml+95, y);
-    doc.text((s.start||"")+"--"+(s.end||""), ml+130, y);
+    doc.text((s.start||"")+" - "+(s.end||""), ml+130, y);
     doc.text(getPrice(s.boat||"1x").toFixed(2), ml+160, y);
     total+=getPrice(s.boat||"1x"); y+=7;
   }
@@ -1150,18 +1150,19 @@ function generateWaiver(clubData, slots){
 
   // PAYMENT
   section(lang==="it" ? "PAGAMENTO" : "PAYMENT DETAILS");
-  checkPage(30);
-  doc.setFillColor(255,253,245); doc.rect(ml,y-2,usable,34,"F");
-  doc.setDrawColor(201,160,82); doc.rect(ml,y-2,usable,34);
+  checkPage(40);
+  doc.setFillColor(255,253,245); doc.rect(ml,y-2,usable,42,"F");
+  doc.setDrawColor(201,160,82); doc.rect(ml,y-2,usable,42);
   doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(150,100,0);
   doc.text(lang==="it" ? "ATTENZIONE: Bonifico entro 24 ore dalla prenotazione" : "WARNING: Bank transfer required within 24 hours of booking", ml+3, y+4);
   doc.setTextColor(0,0,0); doc.setFont("helvetica","normal"); doc.setFontSize(8.5);
   doc.text((lang==="it" ? "Beneficiario: European Rowing Coastal Challenge" : "Beneficiary: European Rowing Coastal Challenge"), ml+3, y+11);
   doc.text("IBAN:  IT58P0846170689000010979287", ml+3, y+17);
   doc.text("BIC:   CCRTIT2TCAS", ml+3, y+23);
+  doc.text("Bank:  Castagneto Banca 1910 - Credito Cooperativo S.C.", ml+3, y+29);
   doc.setFont("helvetica","bold");
-  doc.text((lang==="it" ? "Causale:    NOLEGGIO ALLENAMENTO " : "Reference:  TRAINING RENTAL ") + (clubData.name||""), ml+3, y+29);
-  y+=32;
+  doc.text((lang==="it" ? "Causale:   NOLEGGIO ALLENAMENTO " : "Reference: TRAINING RENTAL ") + (clubData.name||""), ml+3, y+36);
+  y+=46;
 
   // TERMS
   section(lang==="it" ? "TERMINI E CONDIZIONI" : "TERMS AND CONDITIONS");
