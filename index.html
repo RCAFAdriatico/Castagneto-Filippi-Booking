@@ -270,7 +270,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
     <img src="rowing-coastal-challenge.png" style="height:46px;width:auto" alt="Rowing Coastal Challenge - Marina di Castagneto"/>
     <div style="margin-left:4px">
       <div class="hdr-title" id="hdr-title">Training Slot Booking</div>
-      <div class="hdr-sub" id="hdr-sub">Training 3–4 June · Race 5–7 June 2026</div>
+      <div class="hdr-sub" id="hdr-sub">Training 4–5 June · Race 5–7 June 2026</div>
       <div style="font-size:9px;color:#5a7f9a;margin-top:2px;letter-spacing:0.5px">developed by Rowing Club Adriatico Fano ASD</div>
     </div>
   </div>
@@ -499,10 +499,6 @@ function makeSlots(s, e){
 
 function defaultSessionConfig(){
   return [
-    {dateKey:"2026-06-03", dayLabel:"Wednesday", dateLabel:"3 June 2026", hidden:false, sessions:[
-      {id:"wed-am", label:"Morning",   icon:"☀️",  startMin:8*60+30, endMin:12*60+30},
-      {id:"wed-pm", label:"Afternoon", icon:"🌤️", startMin:14*60,   endMin:17*60+30},
-    ]},
     {dateKey:"2026-06-04", dayLabel:"Thursday", dateLabel:"4 June 2026", hidden:false, sessions:[
       {id:"thu-am", label:"Morning",   icon:"☀️",  startMin:8*60+30, endMin:12*60+30},
       {id:"thu-pm", label:"Afternoon", icon:"🌤️", startMin:14*60,   endMin:17*60+30},
@@ -512,7 +508,7 @@ function defaultSessionConfig(){
     ]},
   ];
 }
-const SESSION_CONFIG_VERSION = "castagneto-v2"; // increment to force reset
+const SESSION_CONFIG_VERSION = "castagneto-v3"; // increment to force reset
 function loadSessionConfig(){
   try {
     const ver = localStorage.getItem('sessionConfigVersion');
@@ -1088,7 +1084,7 @@ function generateWaiver(clubData, slots){
   doc.setTextColor(201,160,82); doc.setFont("helvetica","bold"); doc.setFontSize(14);
   doc.text(lang==="it" ? "RICHIESTA NOLEGGIO IMBARCAZIONI" : "BOAT RENTAL REQUEST - TRAINING", pw/2, 11, {align:"center"});
   doc.setTextColor(200,220,235); doc.setFont("helvetica","normal"); doc.setFontSize(9);
-  doc.text("Filippi Trophy Beach Sprint - 3-7 June 2026 - Castagneto Carducci", pw/2, 18, {align:"center"});
+  doc.text("Filippi Trophy Beach Sprint - 4-7 June 2026 - Castagneto Carducci", pw/2, 18, {align:"center"});
   doc.setTextColor(150,180,200); doc.setFontSize(7.5);
   doc.text("European Rowing Coastal Challenge  ·  " + new Date().toLocaleDateString(lang==="it"?"it-IT":"en-GB"), pw/2, 24, {align:"center"});
   doc.setTextColor(0,0,0);
@@ -1487,7 +1483,7 @@ let lang = localStorage.getItem('lang') || 'en';
 const T = {
   en: {
     appTitle: "Training Slot Booking",
-    appSub: "Training 3–4 June · Race 5–7 June 2026",
+    appSub: "Training 4–5 June · Race 5–7 June 2026",
     tabBooking: "📅 Booking",
     tabAdmin: "🛠 Admin",
     clubDetails: "Club details",
@@ -1512,10 +1508,8 @@ const T = {
     waiverWarning: "⚠️ After booking, download, sign and send the waiver together with proof of payment within 24 hours — otherwise your booking will be cancelled.",
     morning: "Morning",
     afternoon: "Afternoon",
-    wednesday: "Wednesday",
     thursday: "Thursday",
     friday: "Friday",
-    dateWednesday: "3 June 2026",
     dateThursday: "4 June 2026",
     dateFriday: "5 June 2026",
     maxPerSlot: "max per slot",
@@ -1565,7 +1559,7 @@ const T = {
   },
   it: {
     appTitle: "Prenotazione Slot Allenamento",
-    appSub: "Allenamenti 3–4 Giugno · Gara 5–7 Giugno 2026",
+    appSub: "Allenamenti 4–5 Giugno · Gara 5–7 Giugno 2026",
     tabBooking: "📅 Prenota",
     tabAdmin: "🛠 Admin",
     clubDetails: "Dati club",
@@ -1590,10 +1584,8 @@ const T = {
     waiverWarning: "⚠️ Dopo la prenotazione, scarica, firma e invia la manleva con la ricevuta di pagamento entro 24 ore — altrimenti la prenotazione verrà annullata.",
     morning: "Mattina",
     afternoon: "Pomeriggio",
-    wednesday: "Mercoledì",
     thursday: "Giovedì",
     friday: "Venerdì",
-    dateWednesday: "3 Giugno 2026",
     dateThursday: "4 Giugno 2026",
     dateFriday: "5 Giugno 2026",
     maxPerSlot: "max per slot",
@@ -1700,10 +1692,9 @@ function applyLang(){
       : 'https://rcafadriatico.github.io/Castagneto-Filippi-Booking/user_guide.pdf';
     gl.textContent = '📄 ' + (lang==='it' ? 'Guida Utente' : 'User Guide');
   }
-  // SESSIONS labels
-  // SESSIONS labels — Wed/Thu/Fri all visible (training Wed+Thu full day + Fri morning only)
-  const dayKeys  = ['wednesday','thursday','friday'];
-  const dateKeys = ['dateWednesday','dateThursday','dateFriday'];
+  // SESSIONS labels — Thu/Fri visible (training Thu full day + Fri morning only)
+  const dayKeys  = ['thursday','friday'];
+  const dateKeys = ['dateThursday','dateFriday'];
   SESSIONS.forEach((sess, idx) => {
     if(idx < dayKeys.length){
       sess.dayLabel  = t(dayKeys[idx]);
